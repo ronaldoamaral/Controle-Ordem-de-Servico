@@ -30,6 +30,12 @@ class OrdemServicoAdmin(ForeignKeyAutocompleteAdmin, admin.ModelAdmin):
             'fields':('pago', 'valor_total',) 
         }),
     )
+    
+    def save_model(self, request, obj, form, change):
+        obj.save()
+        if form.data.has_key('imprimir'):
+            obj.imprimir_cupom()
+        
 
 
 class ClienteAdmin(admin.ModelAdmin):

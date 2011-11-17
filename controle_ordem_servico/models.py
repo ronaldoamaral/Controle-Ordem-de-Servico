@@ -77,6 +77,5 @@ class OrdemServico(models.Model):
         cupom = open('/tmp/cupom.txt','w')
         cupom.write(self.constroi_cupom())
         cupom.close()
-        import pdb;pdb.set_trace()
         os.system('lpr /tmp/cupom.txt')
         os.system('rm -f /tmp/cupom.txt')    
