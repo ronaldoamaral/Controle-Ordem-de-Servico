@@ -4,10 +4,7 @@ def gerar_cupom(codigo=None, data=None, cliente=None, valor_total=None, observac
     data_entrada = "%(dia)d/%(mes)d/%(ano)d" % {'dia': data.day, 'mes':data.month, 'ano': data.year}
     cupom_string = """
 ==========================================
-         Relojoaria do Donaldo
-         Rua Nilo Peçanha, 383 
-          Centro Itaocara - RJ
-           Tel: (22) 81455209  
+         XXXX   XXX      XXXX      XXXX  
 ==========================================      
            Ordem de Servico
 ------------------------------------------
