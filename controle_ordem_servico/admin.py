@@ -10,10 +10,13 @@ class ItemServicoInline(admin.TabularInline):
     
 
 class OrdemServicoAdmin(ForeignKeyAutocompleteAdmin, admin.ModelAdmin):
-    list_display = ('numero', 'cliente', 'data_entrada','situacao', 'data_saida','valor_total')
-    list_filter = ('situacao',)
-    search_fields = ('cliente__nome','numero',)   
-    
+    class Media:
+        js = ("/site_media/js/ordem_servico.js",)
+        
+    list_display = ('codigo', 'cliente', 'data_entrada','situacao', 'data_saida','valor_total')
+    list_filter = ('situacao', 'data_entrada')
+    search_fields = ('cliente__nome','codigo',)   
+    date_hierarchy = 'data_entrada'
     related_search_fields = { 
                 'cliente': ('nome',),
         }
@@ -21,7 +24,7 @@ class OrdemServicoAdmin(ForeignKeyAutocompleteAdmin, admin.ModelAdmin):
     inlines = [ItemServicoInline]
     fieldsets = (
         ('None', {
-            'fields': ('numero','cliente', 'situacao', 'observacoes', )
+            'fields': ('cliente', 'situacao', 'observacoes', )
         }),
         ('Dados Entrega',{
             'fields':('pago', 'valor_total',) 
