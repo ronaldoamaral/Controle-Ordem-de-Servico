@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
+from datetime import datetime
 from django.db import models
 import utils
+
 
 
 class Cliente(models.Model):
@@ -79,3 +81,13 @@ class OrdemServico(models.Model):
         cupom.close()
         os.system('lpr /tmp/cupom.txt')
         os.system('rm -f /tmp/cupom.txt')    
+        
+    def verificar_entrega(self):
+        if self.situacao == 'entregue':
+            self.data_saida = datetime.now()
+        else:
+            self.data_saida = None        
+        
+    def save(self, *args, **kwargs):
+        self.verificar_entrega()
+        super(OrdemServico, self).save(*args, **kwargs)
