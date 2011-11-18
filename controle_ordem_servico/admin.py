@@ -4,11 +4,16 @@ from models import OrdemServico
 from models import Cliente
 from models import ItemServico
 
+def imprimir_cupom(OrdemServicoAdmin, request, queryset):
+    for obj in queryset:
+        obj.imprimir_cupom()
+
+
 class ItemServicoInline(admin.TabularInline):
     model = ItemServico
     extra = 1
-    
 
+    
 class OrdemServicoAdmin(ForeignKeyAutocompleteAdmin, admin.ModelAdmin):
     class Media:
         js = ("/site_media/js/ordem_servico.js",)
@@ -16,7 +21,8 @@ class OrdemServicoAdmin(ForeignKeyAutocompleteAdmin, admin.ModelAdmin):
     list_display = ('codigo', 'cliente', 'data_entrada','situacao', 'data_saida','valor_total')
     list_filter = ('situacao', 'data_entrada')
     search_fields = ('cliente__nome','codigo',)   
-    date_hierarchy = 'data_entrada'
+    date_hierarchy = 'data_entrada'       
+    actions = [imprimir_cupom]
     related_search_fields = { 
                 'cliente': ('nome',),
         }
@@ -30,14 +36,9 @@ class OrdemServicoAdmin(ForeignKeyAutocompleteAdmin, admin.ModelAdmin):
             'fields':('pago', 'valor_total',) 
         }),
     )
+
     
-    def save_model(self, request, obj, form, change):
-        obj.save()
-        if form.data.has_key('imprimir'):
-            obj.imprimir_cupom()
-        
-
-
+   
 class ClienteAdmin(admin.ModelAdmin):
     list_display = ('nome','telefone','endereco')
     search_fields = ('nome',)

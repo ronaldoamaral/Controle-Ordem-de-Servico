@@ -4,8 +4,6 @@ from datetime import datetime
 from django.db import models
 import utils
 
-
-
 class Cliente(models.Model):
 
     class Meta:        
@@ -91,3 +89,4 @@ class OrdemServico(models.Model):
     def save(self, *args, **kwargs):
         self.verificar_entrega()
         super(OrdemServico, self).save(*args, **kwargs)
+        
