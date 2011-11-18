@@ -13,9 +13,11 @@ $(document).ready(function() {
   $("td.valor>input").live("blur", soma_total ); 
   $('tbody > tr[id*=itemservico]').parent('tbody').bind("DOMSubtreeModified", soma_total );
   
-  //$("input[name=_save]").click(function() {
-  //    confirm('Imprimir Ordem de Serviço ?') && $('<input type="text" name="imprimir" value="s">').appendTo('form');
-  //});
+  $("input[name=_save]").click(function() {
+     if ($('select[name=situacao] :selected').val() === "naoiniciado") {
+         confirm('Imprimir Ordem de Serviço ?') && $('<input type="hidden" name="imprimir" value="s">').appendTo('form');
+     }
+  });
 })
 
 

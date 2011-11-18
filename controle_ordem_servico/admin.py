@@ -36,8 +36,25 @@ class OrdemServicoAdmin(ForeignKeyAutocompleteAdmin, admin.ModelAdmin):
             'fields':('pago', 'valor_total',) 
         }),
     )
-
     
+    def save_model(self, request, obj, form, change):
+        obj.save()
+        if form.data.has_key('imprimir'):
+            self.obj_para_imprimir = obj
+
+    def add_view(self, request, form_url='', extra_context=None):
+        response = super(OrdemServicoAdmin, self).add_view(request, form_url, extra_context)
+        if hasattr(self, 'obj_para_imprimir'):
+            self.obj_para_imprimir.imprimir_cupom()
+            del self.obj_para_imprimir
+        return response
+
+    def change_view(self, request, object_id, extra_context=None):
+        response = super(OrdemServicoAdmin, self).change_view(request, object_id, extra_context)
+        if hasattr(self, 'obj_para_imprimir'):
+            self.obj_para_imprimir.imprimir_cupom()
+            del self.obj_para_imprimir
+        return response       
    
 class ClienteAdmin(admin.ModelAdmin):
     list_display = ('nome','telefone','endereco')
